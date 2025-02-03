@@ -9,6 +9,7 @@ class Room():
         self.npc = npc  # NPC in the room (if any)
         self.corpse = False
         self.visited = False
+        self.times_in_room = 0
 
     def add_connection(self, room):
         self.connected_rooms.append(room)
@@ -23,13 +24,30 @@ class Room():
         else:
             print("There is no way out of this room!")
 
-
 class MainHall(Room):
     def __init__(self):
-        super().__init__("A grandious room, out of place in such a small estate, but built for a King.", {'north': None, 'east': None, 'west': None}, None,)
+        super().__init__("Main Hall", "A Grandeous Hall, much to large for such a small estate.", None)
         self.visited = True
-        
+        self.times_in_room = 1
+        self.furniture = ["Chair", "Bench", "Throne"]
 
+class Library(Room):
+    def __init__(self, items):
+        super().__init__("Library", "Rows upon rows of dusty books.", items)
+        self.furniture = ["Bookshelf", "Desk"]
+class Kitchen(Room):
+    def __init__(self, items):
+        super().__init__("Kitchen", "The smell of food lingers, but no one's here.", items)
+        self.furniture = ["Counter", "Pantry", "Cabinets"]
+
+class Garden(Room):
+    def __init__(self, items):
+        super().__init__("Garden", "A beautiful outdoor garden, with flowers in bloom.", items)
+       
+class Dungeon(Room):
+     def __init__(self, items):
+        super().__init__("Dungeon", "A dark, cold dungeon filled with the echoes of chains.", items)
+        self.furniture = ["Cage1", "Cage2", "chains"]
 
 """
 ### 1. Room Class:
@@ -39,9 +57,9 @@ Each room will have a name, a description, and options for which rooms can be ac
 The estate will hold a collection of rooms and handle the randomization of room connections.
 
 ### 3. Player Class:
-The player will need to store their current position and handle the player’s movement through the rooms.
+The player will need to store their current position and handle the players movement through the rooms.
 
-Here’s a basic structure to get started:
+Heres a basic structure to get started:
 
 ### Code:
 

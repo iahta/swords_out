@@ -1,4 +1,5 @@
 import random
+from pprint import pprint
 
 class Estate():
     def __init__(self, starting_room):
@@ -13,6 +14,8 @@ class Estate():
         # Check if the desired room is connected to the current room
         for room in self.current_room.connected_rooms:
             if room.name == room_name: #import rooms?
+                room.times_in_room += 1
+                print(room.times_in_room)
                 self.current_room = room
                 return
         print("You can't go that way!")

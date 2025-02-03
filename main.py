@@ -1,46 +1,38 @@
 from rooms import Room
 from estate import Estate
 from player import Player
-import random
-
-def murder_weapon():
-    weapons = ["knife", "sword", "shield", "rope"]
-    random.shuffle(weapons)
-    return weapons
-
-def create_rooms():
-    weapons = murder_weapon()
-    """Helper function to create rooms for the estate."""
-    room1 = Room("Main Hall", "A grand entrance with a large chandelier.", None)
-    room2 = Room("Library", "Rows upon rows of dusty books.", weapons[0])
-    room3 = Room("Kitchen", "The smell of food lingers, but no one's here.", weapons[1])
-    room4 = Room("Garden", "A beautiful outdoor garden, with flowers in bloom.", weapons[2])
-    room5 = Room("Dungeon", "A dark, cold dungeon filled with the echoes of chains.", weapons[3])
-    return [room1, room2, room3, room4, room5]
+from create_rooms import *
 
 def main():
     # Create rooms
     rooms = create_rooms()
-    
     # Start with the Main Hall room
     estate = Estate(rooms[0])
-    
     # Randomize connections between rooms
     estate.rooms.extend(rooms[1:])
     estate.randomize_rooms()
-
     # Create player
     player = Player("Adventurer")
-
     # Game loop
     while True:
-        player.take_action(estate)
-        
+        user_input = input("What would you like to do? (exit, move, or search)").strip().lower()
+
+        if user_input == "exit":
+            print("Thank you for playing!")
+            break
+        elif user_input == "move":
+            player.take_action(estate)
+        elif user_input == "search":
+            #take account of items to search
+            print("searching")
+
+"""  while True:
+        player.take_action(estate)     
         # If the player wants to quit, break the loop
         if input("Do you want to continue exploring? (y/n): ").lower() != "y":
             print("Thanks for playing!")
             break
-
+"""
 if __name__ == "__main__":
     main()
 
