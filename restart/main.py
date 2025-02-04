@@ -1,7 +1,9 @@
-from game import game
+#from game import game
+from intro import intro
 def main():
-    print("Welcome to Swords Out!")
+    intro()
+    """print("Welcome to Swords Out!")
     if input("Type Start to begin the game: ").lower() != "start":
-        game()
+        game()"""
 if __name__ == "__main__":
     main()

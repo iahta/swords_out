@@ -16,7 +16,7 @@ def game():
     player = Player("Adventurer")
     # Game loop
     while True:
-        user_input = input("What would you like to do? (exit, move, or search)").strip().lower()
+        user_input = input("What would you like to do? (exit, move, or search): ").strip().lower()
 
         if user_input == "exit":
             print("Thank you for playing!")
