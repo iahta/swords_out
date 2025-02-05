@@ -15,14 +15,16 @@ def main():
     player = Player("Adventurer")
     # Game loop
     while True:
-        user_input = input("What would you like to do? (exit, move, or search)").strip().lower()
 
-        if user_input == "exit":
+        current_room = estate.current_room
+        current_room.describe()
+        user_input = input("What would you like to do?\n1: Move 2: Search 3: Talk 4: Pause/Exit: ").strip().lower()
+        if user_input == "4":
             print("Thank you for playing!")
             break
-        elif user_input == "move":
+        elif user_input == "1":
             player.take_action(estate)
-        elif user_input == "search":
+        elif user_input == "2":
             #take account of items to search
             print("searching")
 

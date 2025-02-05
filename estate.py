@@ -15,6 +15,8 @@ class Estate():
         for room in self.current_room.connected_rooms:
             if room.name == room_name: #import rooms?
                 room.times_in_room += 1
+                room.visited = True
+                print(room.visited)
                 print(room.times_in_room)
                 self.current_room = room
                 return
@@ -22,6 +24,7 @@ class Estate():
 
     def randomize_rooms(self):
         """Randomize connections between rooms"""
+        ##need to make sure all rooms are connected to at least one room.
         for room in self.rooms:
             random_connected_rooms = random.sample(self.rooms, random.randint(1, len(self.rooms)-1))
             for connected_room in random_connected_rooms:

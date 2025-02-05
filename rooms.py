@@ -19,10 +19,7 @@ class Room():
 
     def describe(self):
         print(f"You are in the {self.name}. {self.description}")
-        if self.connected_rooms:
-            print("You can go to the following rooms: ", ", ".join(self.get_connection_names()))
-        else:
-            print("There is no way out of this room!")
+        
 
 class MainHall(Room):
     def __init__(self):
@@ -32,9 +29,17 @@ class MainHall(Room):
         self.furniture = ["Chair", "Bench", "Throne"]
 
 class Library(Room):
-    def __init__(self, items):
-        super().__init__("Library", "Rows upon rows of dusty books.", items)
+    description = "Rows upon rows of dusty books."
+    def __init__(self, items):  
+        super().__init__("Library", Library.description, items)
         self.furniture = ["Bookshelf", "Desk"]
+#need to build in call to change descrip
+    def change_description(self):
+        if (self.visited == True) and (self.times_in_room > 1):
+            Library.description = "The air in here is still, dust settles on the books"
+        elif (self.visited == True) and (self.times_in_room > 3):
+            Library.description = "Your movements have caused the dust to fill the air. You cough as you walk through"
+        
 class Kitchen(Room):
     def __init__(self, items):
         super().__init__("Kitchen", "The smell of food lingers, but no one's here.", items)
