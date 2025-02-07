@@ -39,10 +39,10 @@ class Game():
     def intro(self):
         self.print_wrapped("\033[31mWelcome to Swords Out!\033[0m\n")
         self.print_wrapped("Swords out is a text-based detective game where you're the detective.")
-        self.player.name = input("Start detecting, whats your name?\n")
+        self.print_wrapped("Start detecting, whats your name?\n")
+        self.player.name = input(">: ")
         self.clear_screen()
         self.print_wrapped(f"{self.player.name} sits hunched in a corner of their favorite tavern, The Golden Pike, as they drink away their boredom. Two years since a mystery that has really caught their interests. They could only stand to find the farmer's cow so many times.\n")
-    
         self.print_wrapped(f"{self.player.name} drinks their ale \033[33m(type drink)\033[0m \n")
         if input(">: ").strip().lower == 'drink':
             self.print_wrapped("The tavern was lively. Lucky, the tavern owner, paraded around his establishment conversing with every patron. He knew not to mess with {player_name}. Especailly when they didn't have a case.")
@@ -54,4 +54,22 @@ class Game():
             print("hello")#soldier talk
     
     def run(self):
-        print("running")
+        self.intro()
+
+        while self.running:
+            #desribe location self.player.location.desribe()
+
+            action = input("What would you like to do? \n 1: Talk 2: Move 3: Search Q: Quit\n>: ").strip().lower()
+
+            if action == "1":
+                #talk
+            elif action == "2":
+                #move
+            elif action = "3":
+                #search
+            elif action == "q":
+                self.running = False
+                print("Your Quit The Game")
+            else:
+                print("\nInvalid Action, Please Try Again")
+            
