@@ -45,49 +45,114 @@ class Library(Room):
             
     def search(self):
         if self.searched == 0:
-            print("You search the library first time, you see furniture and the weapon, pop funiture, with.")
+            print_wrapped("You search the library first time, you see furniture and the weapon, pop funiture, with.")
             self.searched += 1
-        if self.evidence:
-            print_wrapped("What would you like to examine? 1: Sword 2: Chair 3: Desk 4: Shelf\n")
-        elif not self.evidence:
-            print_wrapped(what would you like to examine?)
-        if self.furniture:
-            if self.evidence:
-                print with evidence: 
+        print_wrapped("What would you like to examine? 1: Sword 2: Chair 3: Desk 4: Shelves\n")
         action = input(">: ")
-        if action == 
+        if action == "1":
+            self.evidence[0].examine()
+        elif action == "2":
+            self.search_furniture("Chair")
+        elif action == "3":
+            self.search_furniture("Desk")
+        elif action == "4":
+            self.search_furniture("Shelves")
+        else:
+            print("Invalid Choice: Please Try Again")
+            self.search()
+        
     
 
 class Kitchen(Room):
     def __init__(self):
         super().__init__("Kitchen")
+        self.furniture = ["Counter, Pantry"]
 
     def describe(self):
         print("in the kitchen")
+
+    def search_furniture(self, furniture):
+        if furniture == "Counter":
+            print_wrapped(furniture)
+        if furniture == "Pantry":
+            print_wrapped(furniture)
     
     def search(self):
-        print("you search the kitchen")
+        if self.searched == 0:
+            print_wrapped("You search the kitchen first time, you see furniture and the weapon, pop funiture, with.")
+            self.searched += 1
+        print_wrapped("What would you like to examine? 1: Knife 2: Counter 3: Pantry\n")
+        action = input(">: ")
+        if action == "1":
+            self.evidence[0].examine()
+        elif action == "2":
+            self.search_furniture("Counter")
+        elif action == "3":
+            self.search_furniture("Pantry")
+        else:
+            print("Invalid Choice: Please Try Again")
+            self.search()
         #knife
 
 class Garden (Room):
     def __init__(self):
         super().__init__("Garden")
+        self.furniture = ["Bench, Tree"]
 
     def describe(self):
         print("in the garden")
 
+    def search_furniture(self, furniture):
+        if furniture == "Bench":
+            print_wrapped(furniture)
+        if furniture == "Tree":
+            print_wrapped(furniture)
+
     def search(self):
-        print("you search the garde")
+        if self.searched == 0:
+            print_wrapped("You search the garden first time, you see furniture and the weapon, pop funiture, with.")
+            self.searched += 1
+        print_wrapped("What would you like to examine? 1: Rope 2: Bench 3: Tree\n")
+        action = input(">: ")
+        if action == "1":
+            self.evidence[0].examine()
+        elif action == "2":
+            self.search_furniture("Bench")
+        elif action == "3":
+            self.search_furniture("Tree")
+        else:
+            print("Invalid Choice: Please Try Again")
+            self.search()
         #rope
 
 class Dungeon (Room):
     def __init__(self):
         super().__init__("Dungeon")
+        self.furniture = ["Cage, Chains"]
 
     def describe(self):
         print("in the dungeon")
 
+    def search_furniture(self, furniture):
+        if furniture == "Cage":
+            print_wrapped(furniture)
+        if furniture == "Chair":
+            print_wrapped(furniture)
+
     def search(self):
-        print("you search the dungeon")
+        if self.searched == 0:
+            print_wrapped("You search the dungeon first time, you see furniture and the weapon, pop funiture, with.")
+            self.searched += 1
+        print_wrapped("What would you like to examine? 1: Shield 2: Cage 3: Chains\n")
+        action = input(">: ")
+        if action == "1":
+            self.evidence[0].examine()
+        elif action == "2":
+            self.search_furniture("Cage")
+        elif action == "3":
+            self.search_furniture("Chains")
+        else:
+            print("Invalid Choice: Please Try Again")
+            self.search()
         #shield
 

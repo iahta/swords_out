@@ -16,6 +16,8 @@ class Game():
         self.kitchen = Kitchen()
         self.main_hall = MainHall()
         self.estate = Estate(self.main_hall)
+        self.sword = Sword()
+
         self.create_world()
         
     def create_world(self):
@@ -25,7 +27,8 @@ class Game():
         self.kitchen.connected_rooms = [self.main_hall, self.dungeon]
         self.garden.connected_rooms = [self.library]
         self.dungeon.connected_rooms = [self.kitchen]
-        
+        self.library.evidence.append(self.sword)
+        print(self.library.evidence)
 
         #create npcs
         #create and add corpse 
