@@ -65,7 +65,7 @@ class Game():
 
         while self.running:
             #desribe location self.player.location.desribe()
-
+            self.estate.current_room.describe()
             action = input("What would you like to do? \n 1: Talk 2: Move 3: Search Q: Quit\n>: ").strip().lower()
 
             if action == "1":
@@ -76,9 +76,9 @@ class Game():
             elif action == "3":
                 #search
                 pass
-            elif action == "q":
+            elif action.strip().lower() == "q":
                 self.running = False
-                print("Your Quit The Game")
+                print("You Quit The Game")
             else:
                 print("\nInvalid Action, Please Try Again")
             
