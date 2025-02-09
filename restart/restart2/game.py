@@ -5,6 +5,7 @@ from player import Player
 from rooms import *
 from estate import Estate
 from corpse import Corpse
+from npc import *
 
 class Game():
     def __init__(self):
@@ -18,6 +19,9 @@ class Game():
         self.kitchen = Kitchen()
         self.main_hall = MainHall()
         self.estate = Estate(self.main_hall)
+        #add other npcs
+        self.king = KingIngmar()
+        #add other evidence
         self.sword = Sword()
 
         self.create_world()
@@ -30,8 +34,12 @@ class Game():
         self.garden.connected_rooms = [self.library]
         self.dungeon.connected_rooms = [self.kitchen]
         self.garden.corpse.append(self.corpse)
+
+        #add other evidence
         self.library.evidence.append(self.sword)
         
+        #add other npcs
+        self.main_hall.npc.append(self.king)
 
         #create npcs
         #create and add corpse 
@@ -76,7 +84,8 @@ class Game():
 
             
             if action == "1":
-                #talk
+                if current_room.name == "Main Hall":
+                    self.main_hall.talk()#npcs are listed in the main hall
                 pass
             elif action == "2":
                 self.player.move(self.estate)

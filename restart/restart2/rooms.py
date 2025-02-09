@@ -20,6 +20,17 @@ class MainHall(Room):
         super().__init__("Main Hall")
         self.visited = True
         self.times_in_room = 1
+        self.npc = []
+
+    def talk(self):
+        print_wrapped("you see the npcs")
+        print_wrapped("who do you want to talk to?")
+        #list npcs
+        #talk to npcs
+        print_wrapped("1: King Ingmar")
+        action = input(">: ")
+        if action == "1":
+            self.npc[0].talk()
 
     def describe(self):
         if self.times_in_room >= 1 and self.times_in_room <= 2:
@@ -51,10 +62,13 @@ class Library(Room):
         print_wrapped("What would you like to examine? 1: Sword 2: Chair 3: Desk 4: Shelves\n")
         action = input(">: ")
         if action == "1":
-            examined = self.evidence[0].examine(player)
-            if examined:
-                popped = self.evidence.pop()
-                player.take_evidence(popped)
+            if not self.evidence:
+                print_wrapped("check your inventory!")
+            else:
+                examined = self.evidence[0].examine(player)
+                if examined:
+                    popped = self.evidence.pop()
+                    player.take_evidence(popped)
         elif action == "2":
             self.search_furniture("Chair")
         elif action == "3":
@@ -81,14 +95,20 @@ class Kitchen(Room):
         if furniture == "Pantry":
             print_wrapped(furniture)
     
-    def search(self):
+    def search(self, player):
         if self.searched == 0:
             print_wrapped("You search the kitchen first time, you see furniture and the weapon, pop funiture, with.")
             self.searched += 1
         print_wrapped("What would you like to examine? 1: Knife 2: Counter 3: Pantry\n")
         action = input(">: ")
         if action == "1":
-            self.evidence[0].examine()
+            if not self.evidence:
+                print_wrapped("check your inventory!")
+            else:
+                examined = self.evidence[0].examine(player)
+                if examined:
+                    popped = self.evidence.pop()
+                    player.take_evidence(popped)
         elif action == "2":
             self.search_furniture("Counter")
         elif action == "3":
@@ -120,7 +140,13 @@ class Garden (Room):
         print_wrapped("What would you like to examine? 1: Rope 2: Corpse 3: Bench 4: Tree\n")
         action = input(">: ")
         if action == "1":
-            self.evidence[0].examine()
+            if not self.evidence:
+                print_wrapped("check your inventory!")
+            else:
+                examined = self.evidence[0].examine(player)
+                if examined:
+                    popped = self.evidence.pop()
+                    player.take_evidence(popped)
         elif action == "2":
             self.corpse[0].examine()
         elif action == "3":
@@ -146,14 +172,20 @@ class Dungeon (Room):
         if furniture == "Chair":
             print_wrapped(furniture)
 
-    def search(self):
+    def search(self, player):
         if self.searched == 0:
             print_wrapped("You search the dungeon first time, you see furniture and the weapon, pop funiture, with.")
             self.searched += 1
         print_wrapped("What would you like to examine? 1: Shield 2: Cage 3: Chains\n")
         action = input(">: ")
         if action == "1":
-            self.evidence[0].examine()
+            if not self.evidence:
+                print_wrapped("check your inventory!")
+            else:
+                examined = self.evidence[0].examine(player)
+                if examined:
+                    popped = self.evidence.pop()
+                    player.take_evidence(popped)
         elif action == "2":
             self.search_furniture("Cage")
         elif action == "3":
