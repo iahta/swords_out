@@ -102,6 +102,7 @@ class Garden (Room):
     def __init__(self):
         super().__init__("Garden")
         self.furniture = ["Bench, Tree"]
+        self.corpse = []
 
     def describe(self):
         print("in the garden")
@@ -112,17 +113,19 @@ class Garden (Room):
         if furniture == "Tree":
             print_wrapped(furniture)
 
-    def search(self):
+    def search(self, player):
         if self.searched == 0:
             print_wrapped("You search the garden first time, you see furniture and the weapon, pop funiture, with.")
             self.searched += 1
-        print_wrapped("What would you like to examine? 1: Rope 2: Bench 3: Tree\n")
+        print_wrapped("What would you like to examine? 1: Rope 2: Corpse 3: Bench 4: Tree\n")
         action = input(">: ")
         if action == "1":
             self.evidence[0].examine()
         elif action == "2":
-            self.search_furniture("Bench")
+            self.corpse[0].examine()
         elif action == "3":
+            self.search_furniture("Bench")
+        elif action == "4":
             self.search_furniture("Tree")
         else:
             print("Invalid Choice: Please Try Again")

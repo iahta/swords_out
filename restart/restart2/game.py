@@ -4,12 +4,14 @@ from dialogue import print_wrapped
 from player import Player
 from rooms import *
 from estate import Estate
+from corpse import Corpse
 
 class Game():
     def __init__(self):
         self.running = True
         self.locations = []
         self.player = Player("Detective Reed")
+        self.corpse = Corpse()
         self.library = Library()
         self.dungeon = Dungeon()
         self.garden = Garden()
@@ -27,6 +29,7 @@ class Game():
         self.kitchen.connected_rooms = [self.main_hall, self.dungeon]
         self.garden.connected_rooms = [self.library]
         self.dungeon.connected_rooms = [self.kitchen]
+        self.garden.corpse.append(self.corpse)
         self.library.evidence.append(self.sword)
         
 

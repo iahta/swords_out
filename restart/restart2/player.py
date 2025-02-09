@@ -42,6 +42,9 @@ class Player():
                 self.evidence[2].examine(self)
             elif action == "4":
                 self.evidence[3].examine(self)
+            else:
+                print_wrapped("Not an Option Please Try Again")
+                self.view_inventory()
         else:
             print_wrapped("Evidence is Currently Empty\n")
         
