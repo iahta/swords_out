@@ -10,7 +10,11 @@ def print_wrapped(text):
         print(wrapped_text)
 
 
+
+
         
 
 """other wrapped functions with the text editied. maybe with evidence to determine,
 if inventory or if it had been found """
+
+

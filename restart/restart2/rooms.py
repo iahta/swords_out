@@ -43,14 +43,18 @@ class Library(Room):
         if furniture == "Chair":
             print_wrapped(furniture)
             
-    def search(self):
+    def search(self, player):
+        print(player.evidence)
         if self.searched == 0:
             print_wrapped("You search the library first time, you see furniture and the weapon, pop funiture, with.")
             self.searched += 1
         print_wrapped("What would you like to examine? 1: Sword 2: Chair 3: Desk 4: Shelves\n")
         action = input(">: ")
         if action == "1":
-            self.evidence[0].examine()
+            examined = self.evidence[0].examine(player)
+            if examined:
+                popped = self.evidence.pop()
+                player.take_evidence(popped)
         elif action == "2":
             self.search_furniture("Chair")
         elif action == "3":

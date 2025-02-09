@@ -28,7 +28,7 @@ class Game():
         self.garden.connected_rooms = [self.library]
         self.dungeon.connected_rooms = [self.kitchen]
         self.library.evidence.append(self.sword)
-        print(self.library.evidence)
+        
 
         #create npcs
         #create and add corpse 
@@ -69,7 +69,7 @@ class Game():
             #desribe location self.player.location.desribe()
             current_room = self.estate.current_room
             current_room.describe()
-            action = input("What would you like to do? \n 1: Talk 2: Move 3: Search Q: Quit\n>: ").strip().lower()
+            action = input("What would you like to do? \n 1: Talk 2: Move 3: Search 4: Inventory Q: Quit\n>: ").strip().lower()
 
             
             if action == "1":
@@ -80,7 +80,9 @@ class Game():
             elif action == "3":
                 if current_room.name == "Main Hall":
                     print_wrapped("You look over the main hall, the npcs sit")
-                self.estate.current_room.search()
+                self.estate.current_room.search(self.player)
+            elif action == "4":
+                self.player.view_inventory()
             elif action.strip().lower() == "q":
                 self.running = False
                 print("You Quit The Game")
