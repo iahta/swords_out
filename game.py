@@ -21,8 +21,15 @@ class Game():
         self.estate = Estate(self.main_hall)
         #add other npcs
         self.king = KingIngmar()
+        self.gardener = Gardener()
+        self.general = General()
+        self.dungeon_master = DungeonMaster()
+        self.chef = Chef()
         #add other evidence
         self.sword = Sword()
+        self.rope = Rope()
+        self.shield = Shield()
+        self.knife = Knife()
 
         self.create_world()
         
@@ -37,9 +44,16 @@ class Game():
 
         #add other evidence
         self.library.evidence.append(self.sword)
+        self.kitchen.evidence.append(self.knife)
+        self.garden.evidence.append(self.rope)
+        self.dungeon.evidence.append(self.shield)
         
         #add other npcs
         self.main_hall.npc.append(self.king)
+        self.main_hall.npc.append(self.gardener)
+        self.main_hall.npc.append(self.general)
+        self.main_hall.npc.append(self.dungeon_master)
+        self.main_hall.npc.append(self.chef)
 
         #create npcs
         #create and add corpse 
@@ -80,24 +94,32 @@ class Game():
             #desribe location self.player.location.desribe()
             current_room = self.estate.current_room
             current_room.describe()
-            action = input("What would you like to do? \n 1: Talk 2: Move 3: Search 4: Inventory Q: Quit\n>: ").strip().lower()
-
-            
-            if action == "1":
-                if current_room.name == "Main Hall":
+            if current_room.name == "Main Hall":
+                action = input("What would you like to do? \n 1: Talk 2: Move 3: Search 4: Inventory Q: Quit\n>: ").strip().lower()
+                if action == "1":
                     self.main_hall.talk()#npcs are listed in the main hall
-                pass
-            elif action == "2":
-                self.player.move(self.estate)
-            elif action == "3":
-                if current_room.name == "Main Hall":
+                elif action == "2":
+                    self.player.move(self.estate)
+                elif action == "3":
                     print_wrapped("You look over the main hall, the npcs sit")
-                self.estate.current_room.search(self.player)
-            elif action == "4":
-                self.player.view_inventory()
-            elif action.strip().lower() == "q":
-                self.running = False
-                print("You Quit The Game")
+                elif action == "4":
+                    self.player.view_inventory()
+                elif action.strip().lower() == "q":
+                    self.running = False
+                    print("You Quit The Game")
+                else:
+                    print("\nInvalid Action, Please Try Again")
             else:
-                print("\nInvalid Action, Please Try Again")
+                action = input("What would What would you like to do? \n 1: Move 2: Search 3: Inventory Q: Quit\n>: ").strip().lower()
+                if action == "1":
+                    self.player.move(self.estate)
+                elif action == "2":
+                    self.estate.current_room.search(self.player)
+                elif action == "3":
+                    self.player.view_inventory()            
+                elif action.strip().lower() == "q":
+                    self.running = False
+                    print("You Quit The Game")
+                else:
+                    print("\nInvalid Action, Please Try Again")
             

@@ -1,46 +1,54 @@
-from estate import Estate
+from dialogue import print_wrapped
+
 
 class Player():
-    def __init__(self, name, health=100):
+    def __init__(self, name):
         self.name = name
-        self.health = health
         self.inventory = []
+        self.evidence = []
 
-    def take_item(self, item):
+    def take_item (self,item):
         self.inventory.append(item)
-
-    def use_item(self, item):
-        if item in self.inventory:
-            # Define what happens when the item is used (e.g., heal, unlock, etc.)
-            pass
-        else:
-            print("You don't have that item.")
-
-    def take_action(self, estate):
-        print("\n")
-        #estate.current_room.describe()
-        available_choices = estate.current_room.get_connection_names()
-        ### action to move rooms###
-        if available_choices:
-            print("You can go to the following rooms: ", ", ".join(available_choices))
-            for i in range(len(available_choices)):
-                print(f"{(i+1)}: {available_choices[i]}\n")
-            choice = input('>:')
-            if choice.lower() == '1':
-                estate.move(available_choices[0])
-            elif choice.lower() == '2':
-                estate.move(available_choices[1])
-            elif choice.lower() == '3':
-                estate.move(available_choices[2])
-            elif choice.lower() == '4':
-                 estate.move(available_choices[3])
+    
+    def take_evidence (self,evidence):
+        self.evidence.append(evidence)
+    
+    def move(self, estate):
+        available_choices = estate.current_room.connected_rooms
+        print_wrapped("You can go to the following rooms: ")
+        for i in range(len(available_choices)):
+            if available_choices[i].visited: 
+                print_wrapped(f"\033[36m{(i+1)}: {available_choices[i].name}\033[0m\n")
             else:
-                print("There is no way out of this room!\n")
-            ###pause menu if anything other than the choices listed###
+                print_wrapped(f"\033[31m{(i+1)}: {available_choices[i].name}\033[0m\n")
+        choice = input('>:')
+        if choice.lower() == '1':
+            estate.move(available_choices[0])
+        elif choice.lower() == '2':
+            estate.move(available_choices[1])
         else:
-            ###YOUREDEAD###
-            print("You can't go anywhere.")
+            print("There is no way out of this room!\n")
 
+    def view_inventory(self):
+        if self.evidence:
+            for i in range(len(self.evidence)):
+                print_wrapped(f"{i + 1}: {self.evidence[i].name}")
+            action = input(">: ")
+            if action == "1":
+                self.evidence[0].examine(self)
+            elif action == "2":
+                self.evidence[1].examine(self)
+            elif action == "3":
+                self.evidence[2].examine(self)
+            elif action == "4":
+                self.evidence[3].examine(self)
+            else:
+                print_wrapped("Not an Option Please Try Again")
+                self.view_inventory()
+        else:
+            print_wrapped("Evidence is Currently Empty\n")
         
+
     
         
+

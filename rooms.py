@@ -1,106 +1,204 @@
-
+from dialogue import print_wrapped
+from evidence import *
 
 class Room():
-    def __init__(self, name, description, items=None, npc=None):
+    def __init__(self, name):
         self.name = name
-        self.description = description
         self.connected_rooms = []
-        self.items = items if items else []  # List of items in the room
-        self.npc = npc  # NPC in the room (if any)
-        self.corpse = False
+        self.items = []
+        self.evidence = []
         self.visited = False
         self.times_in_room = 0
-
-    def add_connection(self, room):
-        self.connected_rooms.append(room)
+        self.searched = 0
 
     def get_connection_names(self):
         return [room.name for room in self.connected_rooms]
-
-    def describe(self):
-        print(f"You are in the {self.name}. {self.description}")
-        
+    
 
 class MainHall(Room):
     def __init__(self):
-        super().__init__("Main Hall", "A Grandeous Hall, much to large for such a small estate.", None)
+        super().__init__("Main Hall")
         self.visited = True
         self.times_in_room = 1
-        self.furniture = ["Chair", "Bench", "Throne"]
+        self.npc = []
+
+    def talk(self):
+        print_wrapped("you see the npcs")
+        print_wrapped("who do you want to talk to?")
+        for i in range(len(self.npc)):
+            print_wrapped(f"{i+1}: {self.npc[i].name}\n")
+        action = input(">: ")
+        if action == "1":
+            self.npc[0].talk()
+        elif action == "2":
+            self.npc[1].talk()
+        elif action == "3":
+            self.npc[2].talk()
+        elif action == "4":
+            self.npc[3].talk()
+        elif action == "5":
+            self.npc[4].talk()
+
+    def describe(self):
+        if self.times_in_room >= 1 and self.times_in_room <= 2:
+            print_wrapped("You are in the Main Hall. A Grandeous Hall, much to large for such a small estate.")
+        if self.times_in_room >= 3:
+            print_wrapped("You are in the Main Hall. The midday sun highlights the golden tapestry cascading down from the windows.") 
 
 class Library(Room):
-    description = "Rows upon rows of dusty books."
-    def __init__(self, items):  
-        super().__init__("Library", Library.description, items)
-        self.furniture = ["Bookshelf", "Desk"]
-#need to build in call to change descrip
-    def change_description(self):
-        if (self.visited == True) and (self.times_in_room > 1):
-            Library.description = "The air in here is still, dust settles on the books"
-        elif (self.visited == True) and (self.times_in_room > 3):
-            Library.description = "Your movements have caused the dust to fill the air. You cough as you walk through"
+    def __init__(self):  
+        super().__init__("Library")
+        self.furniture = ["Chair, Desk, Shelf"]
+
+    def describe(self):
+        print("in the Library")
+
+    def search_furniture(self, furniture):
+        if furniture == "Shelf":
+            print_wrapped(furniture)
+        if furniture == "Desk":
+            print_wrapped(furniture)
+        if furniture == "Chair":
+            print_wrapped(furniture)
+            
+    def search(self, player):
+        print(player.evidence)
+        if self.searched == 0:
+            print_wrapped("You search the library first time, you see furniture and the weapon, pop funiture, with.")
+            self.searched += 1
+        print_wrapped("What would you like to examine? 1: Sword 2: Chair 3: Desk 4: Shelves\n")
+        action = input(">: ")
+        if action == "1":
+            if not self.evidence:
+                print_wrapped("check your inventory!")
+            else:
+                examined = self.evidence[0].examine(player)
+                if examined:
+                    popped = self.evidence.pop()
+                    player.take_evidence(popped)
+        elif action == "2":
+            self.search_furniture("Chair")
+        elif action == "3":
+            self.search_furniture("Desk")
+        elif action == "4":
+            self.search_furniture("Shelves")
+        else:
+            print("Invalid Choice: Please Try Again")
+            self.search()
         
+    
+
 class Kitchen(Room):
-    def __init__(self, items):
-        super().__init__("Kitchen", "The smell of food lingers, but no one's here.", items)
-        self.furniture = ["Counter", "Pantry", "Cabinets"]
+    def __init__(self):
+        super().__init__("Kitchen")
+        self.furniture = ["Counter, Pantry"]
 
-class Garden(Room):
-    def __init__(self, items):
-        super().__init__("Garden", "A beautiful outdoor garden, with flowers in bloom.", items)
-       
-class Dungeon(Room):
-     def __init__(self, items):
-        super().__init__("Dungeon", "A dark, cold dungeon filled with the echoes of chains.", items)
-        self.furniture = ["Cage1", "Cage2", "chains"]
+    def describe(self):
+        print("in the kitchen")
 
-"""
-### 1. Room Class:
-Each room will have a name, a description, and options for which rooms can be accessed next (e.g., doors leading to other rooms).
+    def search_furniture(self, furniture):
+        if furniture == "Counter":
+            print_wrapped(furniture)
+        if furniture == "Pantry":
+            print_wrapped(furniture)
+    
+    def search(self, player):
+        if self.searched == 0:
+            print_wrapped("You search the kitchen first time, you see furniture and the weapon, pop funiture, with.")
+            self.searched += 1
+        print_wrapped("What would you like to examine? 1: Knife 2: Counter 3: Pantry\n")
+        action = input(">: ")
+        if action == "1":
+            if not self.evidence:
+                print_wrapped("check your inventory!")
+            else:
+                examined = self.evidence[0].examine(player)
+                if examined:
+                    popped = self.evidence.pop()
+                    player.take_evidence(popped)
+        elif action == "2":
+            self.search_furniture("Counter")
+        elif action == "3":
+            self.search_furniture("Pantry")
+        else:
+            print("Invalid Choice: Please Try Again")
+            self.search()
+        #knife
 
-### 2. Estate Class:
-The estate will hold a collection of rooms and handle the randomization of room connections.
+class Garden (Room):
+    def __init__(self):
+        super().__init__("Garden")
+        self.furniture = ["Bench, Tree"]
+        self.corpse = []
 
-### 3. Player Class:
-The player will need to store their current position and handle the players movement through the rooms.
+    def describe(self):
+        print("in the garden")
 
-Heres a basic structure to get started:
+    def search_furniture(self, furniture):
+        if furniture == "Bench":
+            print_wrapped(furniture)
+        if furniture == "Tree":
+            print_wrapped(furniture)
 
-### Code:
+    def search(self, player):
+        if self.searched == 0:
+            print_wrapped("You search the garden first time, you see furniture and the weapon, pop funiture, with.")
+            self.searched += 1
+        print_wrapped("What would you like to examine? 1: Rope 2: Corpse 3: Bench 4: Tree\n")
+        action = input(">: ")
+        if action == "1":
+            if not self.evidence:
+                print_wrapped("check your inventory!")
+            else:
+                examined = self.evidence[0].examine(player)
+                if examined:
+                    popped = self.evidence.pop()
+                    player.take_evidence(popped)
+        elif action == "2":
+            self.corpse[0].examine()
+        elif action == "3":
+            self.search_furniture("Bench")
+        elif action == "4":
+            self.search_furniture("Tree")
+        else:
+            print("Invalid Choice: Please Try Again")
+            self.search()
+        #rope
 
-```python
+class Dungeon (Room):
+    def __init__(self):
+        super().__init__("Dungeon")
+        self.furniture = ["Cage, Chains"]
 
+    def describe(self):
+        print("in the dungeon")
 
+    def search_furniture(self, furniture):
+        if furniture == "Cage":
+            print_wrapped(furniture)
+        if furniture == "Chair":
+            print_wrapped(furniture)
 
-### Breakdown of the Code:
+    def search(self, player):
+        if self.searched == 0:
+            print_wrapped("You search the dungeon first time, you see furniture and the weapon, pop funiture, with.")
+            self.searched += 1
+        print_wrapped("What would you like to examine? 1: Shield 2: Cage 3: Chains\n")
+        action = input(">: ")
+        if action == "1":
+            if not self.evidence:
+                print_wrapped("check your inventory!")
+            else:
+                examined = self.evidence[0].examine(player)
+                if examined:
+                    popped = self.evidence.pop()
+                    player.take_evidence(popped)
+        elif action == "2":
+            self.search_furniture("Cage")
+        elif action == "3":
+            self.search_furniture("Chains")
+        else:
+            print("Invalid Choice: Please Try Again")
+            self.search()
+        #shield
 
-1. **Room Class**:
-   - Each room has a `name`, `description`, and a list of `connected_rooms`. 
-   - The `add_connection` method adds a connection to another room.
-   - The `describe` method provides information about the room.
-
-2. **Estate Class**:
-   - Contains the rooms and the logic to randomize connections between them.
-   - The `move` method allows the player to move between rooms.
-
-3. **Player Class**:
-   - Handles the player’s name and the action of choosing which room to go to.
-
-4. **Randomization of Room Connections**:
-   - In the `Estate.randomize_rooms()` method, room connections are randomized. For each room, it selects a random number of rooms and connects them.
-
-5. **Game Loop**:
-   - The game continues asking for input (to move to a connected room) until the player decides to stop.
-
-### Game Flow:
-- When the game starts, the player begins in the “Main Hall.”
-- The estate has multiple rooms, and each room has random connections to others.
-- The player can navigate the rooms, and the game will tell them where they can go next.
-  
-### Improvements:
-- Add more detailed descriptions to the rooms.
-- Add items, enemies, or puzzles in the rooms.
-- Implement a quit condition or an "end game" scenario.
-
-Does this approach look good, or would you like to tweak anything?
-"""
