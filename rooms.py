@@ -22,22 +22,25 @@ class MainHall(Room):
         self.times_in_room = 1
         self.npc = []
 
-    def talk(self):
+    def talk(self, player):
         print_wrapped("you see the npcs")
         print_wrapped("who do you want to talk to?")
         for i in range(len(self.npc)):
-            print_wrapped(f"{i+1}: {self.npc[i].name}\n")
+            if self.npc[i].suspect:
+                print_wrapped(f"\033[31m{i+1}: {self.npc[i].name}\033[0m\n")
+            else:
+                print_wrapped(f"\033[33m{i+1}: {self.npc[i].name}\033[0m\n")
         action = input(">: ")
         if action == "1":
-            self.npc[0].talk()
+            self.npc[0].talk(player)
         elif action == "2":
-            self.npc[1].talk()
+            self.npc[1].talk(player)
         elif action == "3":
-            self.npc[2].talk()
+            self.npc[2].talk(player)
         elif action == "4":
-            self.npc[3].talk()
+            self.npc[3].talk(player)
         elif action == "5":
-            self.npc[4].talk()
+            self.npc[4].talk(player)
 
     def describe(self):
         if self.times_in_room >= 1 and self.times_in_room <= 2:

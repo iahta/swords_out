@@ -5,13 +5,23 @@ class NPC():
         self.name = name
         self.title = title
         self.suspect = False
+        self.notes = []
 
 class KingIngmar(NPC):
     def __init__(self):
         super().__init__("King Ingmar", "King of the Rothsdale Isles, Leader of Clan Tremere, Governor of Frandale")
 
-    def talk(self):
+    def talk(self, player):
         print("talk to ingmar")
+        note1 = "Note 1"
+        note2 = "Note 2"
+        note3 = "Note 3"
+        notes = [note1, note2, note3]
+        self.notes.extend(notes)
+        player.journal[self.name] = self.notes
+        print(player.journal)
+        self.suspect = True
+        #king has win conditions all evidence
 
 class Gardener(NPC):
     def __init__(self):

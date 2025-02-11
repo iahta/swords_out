@@ -55,10 +55,6 @@ class Game():
         self.main_hall.npc.append(self.dungeon_master)
         self.main_hall.npc.append(self.chef)
 
-        #create npcs
-        #create and add corpse 
-        #add npcs to rooms
-
     
 
     def clear_screen(self):
@@ -97,7 +93,7 @@ class Game():
             if current_room.name == "Main Hall":
                 action = input("What would you like to do? \n 1: Talk 2: Move 3: Search 4: Inventory Q: Quit\n>: ").strip().lower()
                 if action == "1":
-                    self.main_hall.talk()#npcs are listed in the main hall
+                    self.main_hall.talk(self.player)#npcs are listed in the main hall #pass in player to take notes in journal 
                 elif action == "2":
                     self.player.move(self.estate)
                 elif action == "3":
