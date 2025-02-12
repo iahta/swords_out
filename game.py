@@ -55,6 +55,8 @@ class Game():
         self.main_hall.npc.append(self.dungeon_master)
         self.main_hall.npc.append(self.chef)
 
+        self.winning = all([self.king.talked_to, self.gardener.talked_to, self.general.talked_to, self.dungeon_master.talked_to, self.chef.talked_to])
+
     
 
     def clear_screen(self):
@@ -90,17 +92,19 @@ class Game():
             #desribe location self.player.location.desribe()
             current_room = self.estate.current_room
             current_room.describe()
+            self.winning = all([self.king.talked_to, self.gardener.talked_to, self.general.talked_to, self.dungeon_master.talked_to, self.chef.talked_to])
+            print(self.winning)
             if current_room.name == "Main Hall":
                 action = input("What would you like to do? \n 1: Talk 2: Move 3: Search 4: Inventory Q: Quit\n>: ").strip().lower()
                 if action == "1":
-                    self.main_hall.talk(self.player)#npcs are listed in the main hall #pass in player to take notes in journal 
+                    self.main_hall.talk(self.player, self.winning)#npcs are listed in the main hall #pass in player to take notes in journal 
                 elif action == "2":
-                    self.player.move(self.estate)
+                   self.player.move(self.estate)
                 elif action == "3":
                     print_wrapped("You look over the main hall, the npcs sit")
                 elif action == "4":
                     self.player.view_inventory()
-                elif action.strip().lower() == "q":
+                elif action == "q":
                     self.running = False
                     print("You Quit The Game")
                 else:
@@ -113,7 +117,7 @@ class Game():
                     self.estate.current_room.search(self.player)
                 elif action == "3":
                     self.player.view_inventory()            
-                elif action.strip().lower() == "q":
+                elif action == "q":
                     self.running = False
                     print("You Quit The Game")
                 else:

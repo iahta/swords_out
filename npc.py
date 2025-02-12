@@ -5,6 +5,7 @@ class NPC():
         self.name = name
         self.title = title
         self.suspect = False
+        self.talked_to = False
         self.notes = []
 
 class KingIngmar(NPC):
@@ -20,34 +21,38 @@ class KingIngmar(NPC):
         self.notes.extend(notes)
         player.journal[self.name] = self.notes
         print(player.journal)
-        self.suspect = True
+        self.talked_to = True
         #king has win conditions all evidence
 
 class Gardener(NPC):
     def __init__(self):
         super().__init__("Gardener Hampton", "Gardener")
 
-    def talk(self):
+    def talk(self, player):
         print("talk to hampton")
+        self.talked_to = True
 
 class General(NPC):
     def __init__(self):
         super().__init__("General Yorbit", "General of the Isles, Commander of the King's Army")
 
-    def talk(self):
+    def talk(self, player):
         print("talk to Yorbit")
+        self.talked_to = True
 
 class Chef(NPC):
     def __init__(self):
         super().__init__("Chef Yanel", "Chef")
 
-    def talk(self):
+    def talk(self, player):
         print("talk to Yanel")
+        self.talked_to = True
 
 class DungeonMaster(NPC):
     def __init__(self):
         super().__init__("Executioner Rabin", "Carrier of Justice")
 
-    def talk(self):
+    def talk(self, player):
         print("talk to Rabin")
+        self.talked_to = True
 

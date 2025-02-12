@@ -30,7 +30,7 @@ class Player():
         else:
             print("There is no way out of this room!\n")
 
-    def view_journal(self):
+    def view_journal(self):  #need to add way to mark suspects
         if self.journal:
             name_list = list(self.journal)
             for i in range(len(name_list)):
@@ -45,8 +45,8 @@ class Player():
                     self.view_journal()
         else:
             print_wrapped("Talk to the Suspects in the Main Hall")
-
-    def view_inventory(self):
+    
+    def view_inventory(self): #suspects list?
         print_wrapped("1: Journal 2: Weapons")
         action = input(">: ")
         if action == "1":
