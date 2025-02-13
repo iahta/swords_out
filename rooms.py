@@ -22,9 +22,7 @@ class MainHall(Room):
         self.times_in_room = 1
         self.npc = []
 
-    def talk(self, player, winning):
-        if winning == True:
-            print("TALKED TO ALL SUSPECTS TALK TO INGMAR, TO ARREST")
+    def talk(self, player):
             #need win condition, suspects list? add remove suspects, suspect function npc, accuse suspect. if winning condition, and then suspect marked, you can accuse the person. 
             #winning condtion send to king ingmar. seperate function. can send back to talk more. 
         print_wrapped("you see the npcs")
@@ -38,7 +36,6 @@ class MainHall(Room):
         for j in range(len(self.npc)):
             if action == f"{j+1}":
                 self.npc[j].talk(player)
-        
 
     def describe(self):
         if self.times_in_room >= 1 and self.times_in_room <= 2:

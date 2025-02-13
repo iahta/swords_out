@@ -22,6 +22,7 @@ class KingIngmar(NPC):
         player.journal[self.name] = self.notes
         print(player.journal)
         self.talked_to = True
+            
         #king has win conditions all evidence
 
 class Gardener(NPC):
@@ -31,14 +32,17 @@ class Gardener(NPC):
     def talk(self, player):
         print("talk to hampton")
         self.talked_to = True
+        self.suspect = True
 
 class General(NPC):
     def __init__(self):
         super().__init__("General Yorbit", "General of the Isles, Commander of the King's Army")
+        self.murderer = True
 
     def talk(self, player):
         print("talk to Yorbit")
         self.talked_to = True
+        self.suspect = True
 
 class Chef(NPC):
     def __init__(self):

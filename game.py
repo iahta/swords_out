@@ -25,11 +25,13 @@ class Game():
         self.general = General()
         self.dungeon_master = DungeonMaster()
         self.chef = Chef()
+        self.npcs = [self.king, self.gardener, self.general, self.dungeon_master, self.chef]
         #add other evidence
         self.sword = Sword()
         self.rope = Rope()
         self.shield = Shield()
         self.knife = Knife()
+        self.win = False
 
         self.create_world()
         
@@ -85,6 +87,31 @@ class Game():
         if input(">: ") == 'drink':
             print("hello")#soldier talk
     
+    def arrest(self):
+        for i in range(len(self.npcs)):
+            if self.npcs[i].suspect:
+                print_wrapped(f"{i+1}: {self.npcs[i].name}")
+        action = input(">: ")
+        for j in range(len(self.npcs)):
+            if action == f"{j+1}":
+                if self.npcs[j].murderer:
+                    print("Congrats! You caught the murderer!")
+                    self.running = False
+        
+
+    def win_condition(self):
+        if all(npc.talked_to for npc in self.npcs):
+            self.win = True
+            print_wrapped("You've talked to all Suspects, do you have enough evidence to arrest?")
+            print_wrapped("1: Yes\n2: No")
+            action = input(">: ")
+            if action == "1":
+                self.arrest()
+            elif action == "2":
+                print_wrapped("Happy Hunting")
+        else:
+            print_wrapped("You need to talk to all suspects first.")
+
     def run(self):
         self.intro()
 
@@ -92,12 +119,13 @@ class Game():
             #desribe location self.player.location.desribe()
             current_room = self.estate.current_room
             current_room.describe()
-            self.winning = all([self.king.talked_to, self.gardener.talked_to, self.general.talked_to, self.dungeon_master.talked_to, self.chef.talked_to])
-            print(self.winning)
             if current_room.name == "Main Hall":
+                self.win_condition()
+                if not self.running:
+                    break
                 action = input("What would you like to do? \n 1: Talk 2: Move 3: Search 4: Inventory Q: Quit\n>: ").strip().lower()
                 if action == "1":
-                    self.main_hall.talk(self.player, self.winning)#npcs are listed in the main hall #pass in player to take notes in journal 
+                    self.main_hall.talk(self.player)#npcs are listed in the main hall #pass in player to take notes in journal 
                 elif action == "2":
                    self.player.move(self.estate)
                 elif action == "3":
